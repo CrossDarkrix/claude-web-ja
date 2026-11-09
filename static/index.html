@@ -8122,7 +8122,7 @@
 // ===== i18n =====
 const I18N_KEY = 'cw_lang';
 let _i18nData = {};
-let _i18nLang = localStorage.getItem(I18N_KEY) || 'zh';
+let _i18nLang = localStorage.getItem(I18N_KEY) || 'ja';
 
 function t(key) {
   const parts = key.split('.');
@@ -8141,10 +8141,10 @@ async function loadI18n(lang) {
     _i18nLang = lang;
     localStorage.setItem(I18N_KEY, lang);
   } catch {
-    if (lang !== 'zh') {
-      const r2 = await fetch(`/static/i18n/zh.json?v=${Date.now()}`);
+    if (lang !== 'ja') {
+      const r2 = await fetch(`/static/i18n/ja.json?v=${Date.now()}`);
       _i18nData = await r2.json();
-      _i18nLang = 'zh';
+      _i18nLang = 'ja';
     }
   }
 }
@@ -8170,7 +8170,7 @@ function applyI18n() {
   });
   // Update lang switcher button
   const btn = document.getElementById('cwLangToggle');
-  if (btn) btn.textContent = _i18nLang === 'zh' ? 'EN' : '中';
+  if (btn) btn.textContent = ({ ja: 'EN', en: '中', zh: '日' })[_i18nLang] || '日';
 }
 
 async function switchLang(lang) {
@@ -8207,7 +8207,7 @@ async function switchLang(lang) {
       <div class="font-semibold text-[13px] truncate" style="letter-spacing:-0.01em;">Claude Code Web</div>
     </div>
     <div class="flex items-center gap-1">
-      <button id="cwLangToggle" class="sb-icon-btn" title="Switch language / 切换语言" style="font-size:11px;font-weight:600;letter-spacing:0.02em;" data-i18n-title="html.switch_language">EN</button>
+      <button id="cwLangToggle" class="sb-icon-btn" title="言語を切り替え / Switch language / 切换语言" style="font-size:11px;font-weight:600;letter-spacing:0.02em;" data-i18n-title="html.switch_language">EN</button>
       <button id="themeBtn" class="sb-icon-btn" data-i18n-title="nav.toggle_theme" title="切换主题" data-i18n-title="nav.toggle_theme">🌙</button>
       <button id="closeSidebar" class="sb-icon-btn sidebar-close" title="关闭会话列表" data-i18n-title="html.close_session_list">×</button>
     </div>
@@ -11567,11 +11567,11 @@ themeBtn.addEventListener('click', () => applyTheme(settings.theme === 'dark' ? 
 // ===== language switcher =====
 const cwLangToggle = document.getElementById('cwLangToggle');
 if (cwLangToggle) {
-  cwLangToggle.textContent = _i18nLang === 'zh' ? 'EN' : '中';
+  cwLangToggle.textContent = ({ ja: 'EN', en: '中', zh: '日' })[_i18nLang] || '日';
   cwLangToggle.addEventListener('click', () => {
-    const next = _i18nLang === 'zh' ? 'en' : 'zh';
+    const next = ({ ja: 'en', en: 'zh', zh: 'ja' })[_i18nLang] || 'ja';
     switchLang(next).then(() => {
-      cwLangToggle.textContent = _i18nLang === 'zh' ? 'EN' : '中';
+      cwLangToggle.textContent = ({ ja: 'EN', en: '中', zh: '日' })[_i18nLang] || '日';
     });
   });
 }

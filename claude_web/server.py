@@ -281,7 +281,7 @@ class ClaudeCliResolutionError(RuntimeError):
 
 
 def resolve_claude_cli_command() -> Optional[str]:
-    candidates = ["claude"]
+    candidates = ["claude-local"]
     if os.name == "nt":
         # npm on Windows may put both a Unix shim named "claude" and a usable
         # batch shim named "claude.cmd" on PATH. Python can pick the Unix shim
